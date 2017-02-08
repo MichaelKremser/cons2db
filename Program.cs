@@ -6,10 +6,13 @@ namespace cons2db
 	{
 		public static void Main (string[] args)
 		{
-			var dbAccess = ConsumptionDbAccess.CreateConsumptionDbAccess(ConsumptionDbAccess.ConsumptionDbAccessKind.Npgsql);
+			var wantedDb = ConsumptionDataDbAccess.ConsumptionDbAccessKind.Npgsql;
+			var dbAccess = ConsumptionDataDbAccess.CreateConsumptionDbAccess(wantedDb);
 #if DEBUG
 			dbAccess.Verbosity = 3;
 #endif
+			var inputFile = "/tmp/vnstat_ppp0.xml"; // TO DO: retrieve from command line arguments
+
 			dbAccess.OpenConnection("localhost", "playground", "testuser", "TestUser#");
 		}
 	}

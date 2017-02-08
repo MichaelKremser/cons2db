@@ -3,9 +3,9 @@ using System.Data;
 
 namespace cons2db
 {
-	public class ConsumptionDbAccess
+	public class ConsumptionDataDbAccess
 	{
-		public ConsumptionDbAccess ()
+		public ConsumptionDataDbAccess ()
 		{
 		}
 
@@ -24,12 +24,12 @@ namespace cons2db
 			set;
 		}
 
-		public static ConsumptionDbAccess CreateConsumptionDbAccess(ConsumptionDbAccessKind kind)
+		public static ConsumptionDataDbAccess CreateConsumptionDbAccess(ConsumptionDbAccessKind kind)
 		{
 			switch (kind)
 			{
 			case ConsumptionDbAccessKind.Npgsql:
-				return new ConsumptionDbAccessPostgre();
+				return new ConsumptionDataDbAccessPostgre();
 			}
 			return null;
 		}

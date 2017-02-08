@@ -1,10 +1,12 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="db/ConsumptionDbAccessPostgre.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="ConsumptionDataReader/ConsumptionDataReader.cs">
     <Files>
-      <File FileName="Program.cs" Line="10" Column="80" />
-      <File FileName="db/ConsumptionDbAccess.cs" Line="12" Column="3" />
-      <File FileName="db/ConsumptionDbAccessPostgre.cs" Line="19" Column="1" />
+      <File FileName="Program.cs" Line="15" Column="1" />
+      <File FileName="db/ConsumptionDataDbAccess.cs" Line="6" Column="38" />
+      <File FileName="db/ConsumptionDataDbAccessPostgre.cs" Line="7" Column="45" />
+      <File FileName="ConsumptionDataReader/ConsumptionDataReader.cs" Line="11" Column="3" />
+      <File FileName="ConsumptionDataReader/ConsumptionDataReaderVnStatXml.cs" Line="12" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

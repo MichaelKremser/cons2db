@@ -4,9 +4,9 @@ using Npgsql;
 
 namespace cons2db
 {
-	public class ConsumptionDbAccessPostgre : ConsumptionDbAccess
+	public class ConsumptionDataDbAccessPostgre : ConsumptionDataDbAccess
 	{
-		public ConsumptionDbAccessPostgre()
+		public ConsumptionDataDbAccessPostgre()
 		{
 		}
 
