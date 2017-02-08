@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 
 namespace cons2db
 {
@@ -11,11 +12,15 @@ namespace cons2db
 #if DEBUG
 			dbAccess.Verbosity = 3;
 #endif
-			var inputFile = "/tmp/vnstat_ppp0.xml"; // TO DO: retrieve from command line arguments
+			dbAccess.OpenConnection("localhost", "playground", "testuser", "TestUser#");
+
 			var wantedReader = ConsumptionDataReaderKind.VnStatXml;
 			var reader = ConsumptionDataReader.CreateConsumptionDataReader(wantedReader);
 			reader.ConsumptionDataDestination = dbAccess;
-			dbAccess.OpenConnection("localhost", "playground", "testuser", "TestUser#");
+
+			var inputFile = "/tmp/vnstat_ppp0.xml"; // TO DO: retrieve from command line arguments
+			var inputFileContent = File.ReadAllText(inputFile);
+			reader.ProcessInputData(inputFileContent);
 		}
 	}
 }

@@ -46,10 +46,12 @@
     <Compile Include="ConsumptionDataReader\ConsumptionDataReaderVnStatXml.cs" />
     <Compile Include="db\ConsumptionDataDbAccess.cs" />
     <Compile Include="db\ConsumptionDataDbAccessPostgre.cs" />
+    <Compile Include="Util\Xml.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="db\" />
     <Folder Include="ConsumptionDataReader\" />
+    <Folder Include="Util\" />
   </ItemGroup>
 </Project>
