@@ -42,15 +42,34 @@ namespace cons2db
 		{
 			int ra;
 			Console.WriteLine("UpdateConsumptionData: " + DeviceId + " " + ConsumptionOccured + " " + Received + " " + Sent);
+			var sql = "WITH new_values (cd_dev_id, cd_timestamp, cd_rx, cd_tx) as ( " + 
+				"values (:cd_dev_id, :cd_timestamp, :cd_rx, :cd_tx)), " + 
+					"upsert as ( " + 
+					"update consumption_data m " + 
+					"set cd_rx = nv.cd_rx, " + 
+					"cd_tx = nv.cd_tx, " + 
+					"cd_refreshed = clock_timestamp() " + 
+					"FROM new_values nv " + 
+					"WHERE 1=1 " + 
+					"and m.cd_dev_id = nv.cd_dev_id " + 
+					"and m.cd_timestamp = nv.cd_timestamp " + 
+					" RETURNING m.* ) " + 
+					"INSERT INTO consumption_data (cd_dev_id, cd_timestamp, cd_rx, cd_tx, cd_refreshed) " + 
+					"SELECT cd_dev_id, cd_timestamp, cd_rx, cd_tx, clock_timestamp() " + 
+					"FROM new_values " + 
+					"WHERE NOT EXISTS (  " + 
+					"SELECT 1 " + 
+					"FROM upsert up " + 
+					"WHERE 1=1 " + 
+					"and up.cd_dev_id = new_values.cd_dev_id " + 
+					"and up.cd_timestamp = new_values.cd_timestamp " + 
+					")";
 			using (var insertCommand = conn.CreateCommand()) {
-				insertCommand.CommandText = "insert into consumption_data " +
-					"(cd_dev_id, cd_timestamp, cd_rx, cd_tx, cd_refreshed) values " +
-					"(:cd_dev_id, :cd_timestamp, :cd_rx, :cd_tx, :cd_refreshed)";
+				insertCommand.CommandText = sql;
 				insertCommand.Parameters.Add("cd_dev_id", NpgsqlTypes.NpgsqlDbType.Bigint).Value = DeviceId;
 				insertCommand.Parameters.Add("cd_timestamp", NpgsqlTypes.NpgsqlDbType.Timestamp).Value = ConsumptionOccured;
 				insertCommand.Parameters.Add("cd_rx", NpgsqlTypes.NpgsqlDbType.Bigint).Value = Received;
 				insertCommand.Parameters.Add("cd_tx", NpgsqlTypes.NpgsqlDbType.Bigint).Value = Sent;
-				insertCommand.Parameters.Add("cd_refreshed", NpgsqlTypes.NpgsqlDbType.Timestamp).Value = DateTime.Now;
 				insertCommand.Prepare ();
 				ra = insertCommand.ExecuteNonQuery ();
 			}

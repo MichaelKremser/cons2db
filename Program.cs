@@ -18,7 +18,9 @@ namespace cons2db
 			var reader = ConsumptionDataReader.CreateConsumptionDataReader(wantedReader);
 			reader.ConsumptionDataDestination = dbAccess;
 
-			var inputFile = "/tmp/vnstat_ppp0.xml"; // TO DO: retrieve from command line arguments
+			// Example data created using this command:
+			// vnstat -i ppp0 --xml > /tmp/vnstat_ppp0.20170209.xml
+			var inputFile = "/tmp/vnstat_ppp0.20170209.xml"; // TO DO: retrieve from command line arguments
 			var inputFileContent = File.ReadAllText(inputFile);
 			reader.ProcessInputData(inputFileContent);
 		}

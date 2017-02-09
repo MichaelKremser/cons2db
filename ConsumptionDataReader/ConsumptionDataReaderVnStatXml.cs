@@ -23,8 +23,10 @@ namespace cons2db
 				var hourId = hourNode.GetNodeIntValueDefensive("id");
 				var occured = ParseDate(hourNode.SelectSingleNode("date"));
 				occured = occured.AddHours(hourId);
-				int ra = ConsumptionDataDestination.UpdateConsumptionData(deviceId, occured, 1, 1);
-				Console.WriteLine (Environment.MachineName + "." + interfaceId + " " + occured.ToLongDateString());
+				int rx = hourNode.SelectSingleNode("rx").GetNodeInnerTextAsInt();
+				int tx = hourNode.SelectSingleNode("tx").GetNodeInnerTextAsInt();
+				int ra = ConsumptionDataDestination.UpdateConsumptionData(deviceId, occured, rx, tx);
+				Console.WriteLine (Environment.MachineName + "." + interfaceId + " " + occured.ToLongDateString() + " inserted (" + ra + ")");
 			}
 			//Console.WriteLine("hourNodes has " + hourNodes.Count + " child nodes");
 			return -1;
