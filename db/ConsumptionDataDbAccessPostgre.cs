@@ -66,7 +66,38 @@ namespace cons2db
 
 		public override long GetDeviceId(long SystemId, string DeviceName)
 		{
-			return 1;
+			int attempts = 2;
+			long result = -1;
+			while (attempts > 0)
+			{
+				if (Verbosity >= 2)
+				{
+					Console.WriteLine ("GetDeviceId: " + DeviceName);
+				}
+				var sqlGetDeviceId = "select dev_id from devices where dev_name = :dev_name";
+				using (var cmdGetDeviceId = conn.CreateCommand())
+				{
+					cmdGetDeviceId.CommandText = sqlGetDeviceId;
+					cmdGetDeviceId.Parameters.Add("dev_name", NpgsqlTypes.NpgsqlDbType.Varchar).Value = DeviceName;
+					object oResult = cmdGetDeviceId.ExecuteScalar();
+					if (oResult != null)
+					{
+						if (long.TryParse(oResult.ToString(), out result))
+						{
+							attempts = 0; // we have got a result, so we're finished
+						}
+						else
+						{
+							Console.WriteLine("  Warning: " + oResult + " can't be converted to long!");
+						}
+					}
+					else
+					{
+						Console.WriteLine("  Not found!");
+					}
+				}
+			}
+			return result;
 		}
 
 		public override int UpdateConsumptionData(long DeviceId, DateTime ConsumptionOccured, long Received, long Sent)
