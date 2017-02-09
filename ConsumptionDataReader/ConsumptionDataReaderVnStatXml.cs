@@ -16,25 +16,29 @@ namespace cons2db
 			var interfaceNode = xmlDoc.SelectSingleNode("/vnstat/interface");
 			var interfaceId = interfaceNode.GetNodeValueDefensive("id");
 			var hourNodes = interfaceNode.SelectNodes("traffic/hours/hour");
-			int dateYear, dateMonth, dateDay;
+			var systemId = ConsumptionDataDestination.GetSystemId(Environment.MachineName);
+			var deviceId = ConsumptionDataDestination.GetDeviceId(systemId, interfaceId);
 			foreach (XmlNode hourNode in hourNodes)
 			{
 				var hourId = hourNode.GetNodeIntValueDefensive("id");
-				ParseDate(hourNode.SelectSingleNode("date"), out dateYear, out dateMonth, out dateDay);
-				Console.WriteLine (Environment.MachineName + "." + interfaceId + " " + hourId + " " + dateYear + "-" + dateMonth + "-" + dateDay);
+				var occured = ParseDate(hourNode.SelectSingleNode("date"));
+				occured = occured.AddHours(hourId);
+				int ra = ConsumptionDataDestination.UpdateConsumptionData(deviceId, occured, 1, 1);
+				Console.WriteLine (Environment.MachineName + "." + interfaceId + " " + occured.ToLongDateString());
 			}
 			//Console.WriteLine("hourNodes has " + hourNodes.Count + " child nodes");
 			return -1;
 		}
 
-		private void ParseDate(XmlNode DateNode, out int dateYear, out int dateMonth, out int dateDay)
+		private DateTime ParseDate(XmlNode DateNode)
 		{
 			var yearNode = DateNode.SelectSingleNode("year");
 			var monthNode = DateNode.SelectSingleNode("month");
 			var dayNode = DateNode.SelectSingleNode("day");
-			dateYear = yearNode.GetNodeInnerTextAsInt();
-			dateMonth = monthNode.GetNodeInnerTextAsInt();
-			dateDay = dayNode.GetNodeInnerTextAsInt();
+			int dateYear = yearNode.GetNodeInnerTextAsInt();
+			int dateMonth = monthNode.GetNodeInnerTextAsInt();
+			int dateDay = dayNode.GetNodeInnerTextAsInt();
+			return new DateTime(dateYear, dateMonth, dateDay);
 		}
 	}
 }

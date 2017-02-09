@@ -39,6 +39,21 @@ namespace cons2db
 			throw new NotImplementedException("OpenConnection");
 		}
 
+		public virtual long GetSystemId(string SystemName)
+		{
+			throw new NotImplementedException("GetSystemId");
+		}
+
+		public virtual long GetDeviceId(long SystemId, string DeviceName)
+		{
+			throw new NotImplementedException("GetDeviceId");
+		}
+
+		public virtual int UpdateConsumptionData(long DeviceId, DateTime ConsumptionOccured, long Received, long Sent)
+		{
+			throw new NotImplementedException("UpdateConsumptionData");
+		}
+
 		public enum ConsumptionDbAccessKind
 		{
 			Npgsql
