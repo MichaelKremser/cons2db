@@ -53,5 +53,12 @@
     <Folder Include="db\" />
     <Folder Include="ConsumptionDataReader\" />
     <Folder Include="Util\" />
+    <Folder Include="sql\" />
+    <Folder Include="sql\pgsql\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="sql\pgsql\devices.sql" />
+    <None Include="sql\pgsql\systems.sql" />
+    <None Include="sql\pgsql\consumption_data.sql" />
   </ItemGroup>
 </Project>

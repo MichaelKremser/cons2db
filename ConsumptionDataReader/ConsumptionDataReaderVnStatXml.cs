@@ -21,7 +21,7 @@ namespace cons2db
 			{
 				var hourId = hourNode.GetNodeIntValueDefensive("id");
 				ParseDate(hourNode.SelectSingleNode("date"), out dateYear, out dateMonth, out dateDay);
-				Console.WriteLine (interfaceId + " " + hourId + " " + dateYear + "-" + dateMonth + "-" + dateDay);
+				Console.WriteLine (Environment.MachineName + "." + interfaceId + " " + hourId + " " + dateYear + "-" + dateMonth + "-" + dateDay);
 			}
 			//Console.WriteLine("hourNodes has " + hourNodes.Count + " child nodes");
 			return -1;
