@@ -8,6 +8,12 @@ Examples of consumption data:
 - Electrical power (generated/consumed): produced for example my metering devices like smart meters
 - Gas (fed/taken)
 
+If data is stored in a relational database, it can be easily analyzed. Questions like the following might be answered:
+
+- At which time of the day occured the highest consumption in average?
+- At which day of the week occured the lowest consumption in average?
+- How was the average development during a weekday specified?
+
 # How does it work
 
 The program reads in data from a file and puts it into the database.
