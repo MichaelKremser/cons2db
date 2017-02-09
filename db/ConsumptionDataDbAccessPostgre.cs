@@ -22,7 +22,7 @@ namespace cons2db
 			var connString = string.Format(ConnectionStringPattern, Hostname, Database, Username, Password);
 			conn = new NpgsqlConnection(connString);
 			conn.Open();
-			if (Verbosity >= 2)
+			if (Verbosity >= 1)
 			{
 				Console.WriteLine ("Connected; server version is \"" + conn.ServerVersion + "\"");
 			}
@@ -30,7 +30,38 @@ namespace cons2db
 		
 		public override long GetSystemId(string SystemName)
 		{
-			return 1;
+			int attempts = 2;
+			long result = -1;
+			while (attempts > 0)
+			{
+				if (Verbosity >= 2)
+				{
+					Console.WriteLine ("GetSystemId: " + SystemName);
+				}
+				var sqlGetSystemId = "select sys_id from systems where sys_name = :sys_name";
+				using (var cmdGetSystemId = conn.CreateCommand())
+				{
+					cmdGetSystemId.CommandText = sqlGetSystemId;
+					cmdGetSystemId.Parameters.Add("sys_name", NpgsqlTypes.NpgsqlDbType.Varchar).Value = SystemName;
+					object oResult = cmdGetSystemId.ExecuteScalar();
+					if (oResult != null)
+					{
+						if (long.TryParse(oResult.ToString(), out result))
+						{
+							attempts = 0; // we have got a result, so we're finished
+						}
+						else
+						{
+							Console.WriteLine("  Warning: " + oResult + " can't be converted to long!");
+						}
+					}
+					else
+					{
+						Console.WriteLine("  Not found!");
+					}
+				}
+			}
+			return result;
 		}
 
 		public override long GetDeviceId(long SystemId, string DeviceName)
@@ -41,7 +72,10 @@ namespace cons2db
 		public override int UpdateConsumptionData(long DeviceId, DateTime ConsumptionOccured, long Received, long Sent)
 		{
 			int ra;
-			Console.WriteLine("UpdateConsumptionData: " + DeviceId + " " + ConsumptionOccured + " " + Received + " " + Sent);
+			if (Verbosity >= 1)
+			{
+				Console.WriteLine("UpdateConsumptionData: " + DeviceId + " " + ConsumptionOccured + " " + Received + " " + Sent);
+			}
 			var sql = "WITH new_values (cd_dev_id, cd_timestamp, cd_rx, cd_tx) as ( " + 
 				"values (:cd_dev_id, :cd_timestamp, :cd_rx, :cd_tx)), " + 
 					"upsert as ( " + 
@@ -70,8 +104,8 @@ namespace cons2db
 				insertCommand.Parameters.Add("cd_timestamp", NpgsqlTypes.NpgsqlDbType.Timestamp).Value = ConsumptionOccured;
 				insertCommand.Parameters.Add("cd_rx", NpgsqlTypes.NpgsqlDbType.Bigint).Value = Received;
 				insertCommand.Parameters.Add("cd_tx", NpgsqlTypes.NpgsqlDbType.Bigint).Value = Sent;
-				insertCommand.Prepare ();
-				ra = insertCommand.ExecuteNonQuery ();
+				insertCommand.Prepare();
+				ra = insertCommand.ExecuteNonQuery();
 			}
 			return ra;
 		}

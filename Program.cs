@@ -20,7 +20,7 @@ namespace cons2db
 
 			// Example data created using this command:
 			// vnstat -i ppp0 --xml > /tmp/vnstat_ppp0.20170209.xml
-			var inputFile = "/tmp/vnstat_ppp0.20170209.xml"; // TO DO: retrieve from command line arguments
+			var inputFile = "/tmp/vnstat_ppp0.20170209.xml"; // TO DO: retrieve from command line arguments while "-" means use standard input
 			var inputFileContent = File.ReadAllText(inputFile);
 			reader.ProcessInputData(inputFileContent);
 		}

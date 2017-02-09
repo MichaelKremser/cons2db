@@ -26,7 +26,7 @@ namespace cons2db
 				int rx = hourNode.SelectSingleNode("rx").GetNodeInnerTextAsInt();
 				int tx = hourNode.SelectSingleNode("tx").GetNodeInnerTextAsInt();
 				int ra = ConsumptionDataDestination.UpdateConsumptionData(deviceId, occured, rx, tx);
-				Console.WriteLine (Environment.MachineName + "." + interfaceId + " " + occured.ToLongDateString() + " inserted (" + ra + ")");
+				Console.WriteLine (Environment.MachineName + "." + interfaceId + " " + occured.ToString("G") + " inserted (" + ra + ")");
 			}
 			//Console.WriteLine("hourNodes has " + hourNodes.Count + " child nodes");
 			return -1;
