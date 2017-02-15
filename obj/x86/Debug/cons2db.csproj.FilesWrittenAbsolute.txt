@@ -1,0 +1,1 @@
+/home/michael/Projects/cons2db/obj/x86/Debug/.NETFramework,Version=v4.5,Profile=Client.AssemblyAttribute.cs

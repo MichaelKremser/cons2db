@@ -74,11 +74,12 @@ namespace cons2db
 				{
 					Console.WriteLine ("GetDeviceId: " + DeviceName);
 				}
-				var sqlGetDeviceId = "select dev_id from devices where dev_name = :dev_name";
+				var sqlGetDeviceId = "select dev_id from devices where dev_name = :dev_name and dev_sys_id = :sys_id";
 				using (var cmdGetDeviceId = conn.CreateCommand())
 				{
 					cmdGetDeviceId.CommandText = sqlGetDeviceId;
 					cmdGetDeviceId.Parameters.Add("dev_name", NpgsqlTypes.NpgsqlDbType.Varchar).Value = DeviceName;
+					cmdGetDeviceId.Parameters.Add("sys_id", NpgsqlTypes.NpgsqlDbType.Bigint).Value = SystemId;
 					object oResult = cmdGetDeviceId.ExecuteScalar();
 					if (oResult != null)
 					{
