@@ -117,9 +117,9 @@ namespace cons2db
 					"cd_refreshed = clock_timestamp() " + 
 					"FROM new_values nv " + 
 					"WHERE 1=1 " + 
-					"and m.cd_dev_id = nv.cd_dev_id " + 
-					"and m.cd_timestamp = nv.cd_timestamp " + 
-					" RETURNING m.* ) " + 
+					"  and m.cd_dev_id = nv.cd_dev_id " + 
+					"  and m.cd_timestamp = nv.cd_timestamp " + 
+					"  RETURNING m.* ) " + 
 					"INSERT INTO consumption_data (cd_dev_id, cd_timestamp, cd_rx, cd_tx, cd_refreshed) " + 
 					"SELECT cd_dev_id, cd_timestamp, cd_rx, cd_tx, clock_timestamp() " + 
 					"FROM new_values " + 
@@ -127,8 +127,10 @@ namespace cons2db
 					"SELECT 1 " + 
 					"FROM upsert up " + 
 					"WHERE 1=1 " + 
-					"and up.cd_dev_id = new_values.cd_dev_id " + 
-					"and up.cd_timestamp = new_values.cd_timestamp " + 
+					"  and up.cd_dev_id = new_values.cd_dev_id " + 
+					"  and up.cd_timestamp = new_values.cd_timestamp " + 
+					"  and up.cd_rx = new_values.cd_rx " +
+					"  and up.cd_tx = new_values.cd_tx " +
 					")";
 			using (var insertCommand = conn.CreateCommand()) {
 				insertCommand.CommandText = sql;
@@ -138,6 +140,10 @@ namespace cons2db
 				insertCommand.Parameters.Add("cd_tx", NpgsqlTypes.NpgsqlDbType.Bigint).Value = Sent;
 				insertCommand.Prepare();
 				ra = insertCommand.ExecuteNonQuery();
+				if (Verbosity >= 2)
+				{
+					Console.WriteLine("{0} record{1} affected", ra, (ra == 1 ? "" : "s"));
+				}
 			}
 			return ra;
 		}

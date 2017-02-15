@@ -31,6 +31,7 @@ namespace cons2db
 
 	public enum ConsumptionDataReaderKind
 	{
+		Unknown,
 		VnStatXml
 	}
 }

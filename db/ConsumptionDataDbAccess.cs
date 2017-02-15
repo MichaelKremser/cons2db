@@ -53,10 +53,11 @@ namespace cons2db
 		{
 			throw new NotImplementedException("UpdateConsumptionData");
 		}
-
-		public enum ConsumptionDbAccessKind
-		{
-			Npgsql
-		}
+	}
+	
+	public enum ConsumptionDbAccessKind
+	{
+		Unknown,
+		Npgsql
 	}
 }

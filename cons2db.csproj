@@ -21,6 +21,7 @@
     <WarningLevel>4</WarningLevel>
     <Externalconsole>true</Externalconsole>
     <PlatformTarget>x86</PlatformTarget>
+    <Commandlineparameters>/tmp/vnstat_ppp0.20170209.xml -vvv - --filetype VnStatXml --dbtype Npgsql --credentials testuser:TestUser#@playground#localhost</Commandlineparameters>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>full</DebugType>
