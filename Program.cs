@@ -26,9 +26,7 @@ namespace cons2db
 			ParseCommandLineArguments (args, ref inputFile, ref dbUsername, ref dbPassword, ref dbDatabase, ref dbHost, ref wantedDb, ref wantedReader, ref verbosity);
 //			var wantedDb = ConsumptionDbAccessKind.Npgsql;
 			var dbAccess = ConsumptionDataDbAccess.CreateConsumptionDbAccess(wantedDb);
-#if DEBUG
 			dbAccess.Verbosity = verbosity;
-#endif
 //			dbAccess.OpenConnection("localhost", "playground", "testuser", "TestUser#");
 			dbAccess.OpenConnection(dbHost, dbDatabase, dbUsername, dbPassword);
 
