@@ -129,8 +129,8 @@ namespace cons2db
 					"WHERE 1=1 " + 
 					"  and up.cd_dev_id = new_values.cd_dev_id " + 
 					"  and up.cd_timestamp = new_values.cd_timestamp " + 
-					"  and up.cd_rx = new_values.cd_rx " +
-					"  and up.cd_tx = new_values.cd_tx " +
+//					"  and up.cd_rx = new_values.cd_rx " +
+//					"  and up.cd_tx = new_values.cd_tx " +
 					")";
 			using (var insertCommand = conn.CreateCommand()) {
 				insertCommand.CommandText = sql;
